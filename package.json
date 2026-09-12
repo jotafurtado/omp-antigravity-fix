@@ -1,0 +1,36 @@
+{
+  "name": "omp-antigravity-fix",
+  "version": "1.0.0",
+  "description": "Fixes false 429 RESOURCE_EXHAUSTED on Google Antigravity in Oh My Pi by aligning the request envelope with the official client",
+  "keywords": [
+    "omp",
+    "omp-extension",
+    "omp-plugin",
+    "oh-my-pi",
+    "antigravity",
+    "google-antigravity",
+    "gemini",
+    "429"
+  ],
+  "author": "João C. Furtado (@jotafurtado)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jotafurtado/omp-antigravity-fix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jotafurtado/omp-antigravity-fix/issues"
+  },
+  "homepage": "https://github.com/jotafurtado/omp-antigravity-fix#readme",
+  "main": "index.ts",
+  "omp": {
+    "extensions": [
+      "index.ts"
+    ]
+  },
+  "pi": {
+    "extensions": [
+      "index.ts"
+    ]
+  }
+}
