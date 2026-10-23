@@ -36,32 +36,28 @@ omp lifts that pause for any provider id an extension registers its own OAuth ha
 - **No Prompt Tampering**: Unlike workarounds that rename `<system-conventions>` or strip text, your prompts remain 100% intact across all providers.
 - **Provider-Scoped**: Only acts on outgoing `google-antigravity` calls (`userAgent === "antigravity"`). Other providers (Anthropic, OpenAI, etc.) are never touched.
 - **Zero Sidecar / Zero Daemon**: No local proxy servers running in the background, no open ports, no systemd services, and no `.vbs` startup scripts.
-- **Multiple Installation Options**: Supports both clean directory cloning and native `omp install`.
+- **Standard Installation**: Published on npm and installed with the native `omp plugin install`.
 
 ---
 
 ### Installation
 
-Clone this repository into the extensions directory:
+Install the npm package with the OMP plugin manager:
 
-**Windows (CMD)**:
-```cmd
-git clone https://github.com/jotafurtado/omp-antigravity-fix "%USERPROFILE%/.omp/agent/extensions/antigravity-fix"
-```
-
-**Windows (PowerShell)**:
-```powershell
-git clone https://github.com/jotafurtado/omp-antigravity-fix "$HOME/.omp/agent/extensions/antigravity-fix"
-```
-
-**Linux / macOS**:
 ```bash
-git clone https://github.com/jotafurtado/omp-antigravity-fix "$HOME/.omp/agent/extensions/antigravity-fix"
+omp plugin install omp-antigravity-fix
 ```
 
-Alternatively, you can install it using the native extension manager:
+The extension loads in the next `omp` session. Confirm it is installed:
+
 ```bash
-omp install github:jotafurtado/omp-antigravity-fix
+omp plugin list
+```
+
+To remove it:
+
+```bash
+omp plugin uninstall omp-antigravity-fix
 ```
 
 ---
@@ -88,7 +84,7 @@ Clear the local lockout immediately by running:
 
 Run with a model your account's roster serves (Antigravity rosters differ per plan; `omp models google-antigravity` lists them):
 ```bash
-omp -p --model google-antigravity/claude-sonnet-4-6 "reply with exactly: ok"
+omp -p --model google-antigravity/gemini-3.8-flash "reply with exactly: ok"
 ```
 You should immediately receive `ok`. Without the extension, omp 18.18.4+ answers `No API key found for google-antigravity`.
 
@@ -122,32 +118,28 @@ O omp libera a pausa para qualquer provedor cujo id uma extensão registre com u
 - **Sem Adulteração de Prompts**: Ao contrário de extensões que renomeiam `<system-conventions>` ou cortam textos, seus prompts permanecem 100% íntegros.
 - **Escopada por Provedor**: Atua exclusivamente em chamadas para o `google-antigravity`. Não afeta outros modelos (Claude, OpenAI, etc.).
 - **Zero Sidecar / Sem Processos em Background**: Não requer proxy HTTP local rodando em segundo plano, nem portas abertas, nem serviços no systemd ou scripts `.vbs`.
-- **Múltiplas Formas de Instalação**: Suporta clonagem direta de diretório ou instalação nativa pelo `omp install`.
+- **Instalação Padrão**: Publicada no npm e instalada pelo `omp plugin install` nativo.
 
 ---
 
 ### Instalação
 
-Clone este repositório no diretório de extensões:
+Instale o pacote npm pelo gerenciador de plugins do OMP:
 
-**Windows (CMD)**:
-```cmd
-git clone https://github.com/jotafurtado/omp-antigravity-fix "%USERPROFILE%/.omp/agent/extensions/antigravity-fix"
-```
-
-**Windows (PowerShell)**:
-```powershell
-git clone https://github.com/jotafurtado/omp-antigravity-fix "$HOME/.omp/agent/extensions/antigravity-fix"
-```
-
-**Linux / macOS**:
 ```bash
-git clone https://github.com/jotafurtado/omp-antigravity-fix "$HOME/.omp/agent/extensions/antigravity-fix"
+omp plugin install omp-antigravity-fix
 ```
 
-Alternativamente, você pode instalar utilizando o gerenciador de extensões nativo:
+A extensão é carregada na próxima sessão do `omp`. Confirme a instalação:
+
 ```bash
-omp install github:jotafurtado/omp-antigravity-fix
+omp plugin list
+```
+
+Para remover:
+
+```bash
+omp plugin uninstall omp-antigravity-fix
 ```
 
 ---
@@ -174,7 +166,7 @@ Para limpá-lo imediatamente e voltar a usar o Antigravity:
 
 Use um modelo que o roster da sua conta oferece (varia por plano; `omp models google-antigravity` lista):
 ```bash
-omp -p --model google-antigravity/claude-sonnet-4-6 "responda com: ok"
+omp -p --model google-antigravity/gemini-3.8-flash "responda com: ok"
 ```
 O modelo responderá imediatamente com `ok`. Sem a extensão, o omp 18.18.4+ responde `No API key found for google-antigravity`.
 
