@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/jotafurtado/omp-antigravity-fix#readme",
   "main": "index.ts",
+  "files": [
+    "index.ts"
+  ],
   "omp": {
     "extensions": [
       "index.ts"
