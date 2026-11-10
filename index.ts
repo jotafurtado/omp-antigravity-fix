@@ -14,11 +14,16 @@
  *    the official client (`antigravity/hub`). Prompts are never modified.
  */
 
+import { Database } from "bun:sqlite";
 import { authPolicyFor } from "@oh-my-pi/pi-catalog/compat/auth";
+import { getAgentDbPath } from "@oh-my-pi/pi-utils";
 
 const PROVIDER = "google-antigravity";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const EXPIRY_SKEW_MS = 300_000;
+// Fallback key that only marks the provider as authenticated while omp picks the
+// session model. Stored OAuth credentials take precedence over it once reloaded.
+const STARTUP_AUTH_MARKER = "omp-antigravity-fix:stored-login";
 
 interface PolicyValue {
 	value: string;
@@ -91,9 +96,30 @@ function getApiKey(c: Credentials): string {
 	});
 }
 
+// omp resolves the session model (default role, resumed session, subagent roles)
+// before `session_start`, while its auth cache still hides the paused provider's
+// stored login. Without some auth for `google-antigravity` at that point, omp
+// reports the default model as unavailable and falls back to another provider.
+function hasStoredLogin(): boolean {
+	let db: Database;
+	try {
+		db = new Database(getAgentDbPath(), { readonly: true });
+	} catch {
+		return false;
+	}
+	try {
+		const row = db
+			.query("SELECT 1 FROM auth_credentials WHERE provider = ? AND disabled_cause IS NULL LIMIT 1")
+			.get(PROVIDER);
+		return row !== null;
+	} finally {
+		db.close();
+	}
+}
+
 // Minimal slice of omp's ExtensionAPI used here; the extension ships without omp's types.
 interface ExtensionApi {
-	registerProvider(name: string, config: { oauth: Record<string, unknown> }): void;
+	registerProvider(name: string, config: { oauth: Record<string, unknown>; apiKey?: string }): void;
 	on(
 		event: "session_start",
 		handler: (event: unknown, ctx: { modelRegistry: { authStorage: { reload(): Promise<void> } } }) => Promise<void>,
@@ -113,6 +139,10 @@ export default function (omp: ExtensionApi) {
 			refreshToken,
 			getApiKey,
 		},
+		// With `oauth` set, omp installs this as a fallback key, consulted only after
+		// stored OAuth credentials. Registered only when a login exists, so the
+		// provider never looks authenticated to someone who never signed in.
+		...(hasStoredLogin() ? { apiKey: STARTUP_AUTH_MARKER } : {}),
 	});
 
 	// omp loads stored credentials before extensions register, and drops rows of
