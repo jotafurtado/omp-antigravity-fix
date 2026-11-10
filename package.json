@@ -1,7 +1,7 @@
 {
   "name": "omp-antigravity-fix",
-  "version": "2.0.1",
-  "description": "Re-enables Google Antigravity (paused in omp 18.18.4) and fixes false 429 RESOURCE_EXHAUSTED in Oh My Pi. Use at your own risk.",
+  "version": "2.0.2",
+  "description": "Re-enables Google Antigravity in Oh My Pi (paused in omp 18.18.4). Use at your own risk.",
   "keywords": [
     "omp",
     "omp-extension",
@@ -9,8 +9,7 @@
     "oh-my-pi",
     "antigravity",
     "google-antigravity",
-    "gemini",
-    "429"
+    "gemini"
   ],
   "author": "João C. Furtado (@jotafurtado)",
   "license": "MIT",

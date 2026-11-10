@@ -1,17 +1,14 @@
 /**
  * OMP Antigravity Fix Extension
  *
- * 1. Re-enables the Google Antigravity provider paused in omp 18.18.4 (#18622).
- *    omp lifts the pause for any provider id an extension registers its own OAuth
- *    handler under (`providerPauseReason` in pi-ai's oauth registry), so this
- *    extension registers refresh/api-key handling for `google-antigravity`.
- *    /login keeps using omp's built-in Antigravity flow.
+ * Re-enables the Google Antigravity provider paused in omp 18.18.4 (#18622).
+ * omp lifts the pause for any provider id an extension registers its own OAuth
+ * handler under (`providerPauseReason` in pi-ai's oauth registry), so this
+ * extension registers refresh/api-key handling for `google-antigravity`.
+ * /login keeps using omp's built-in Antigravity flow.
  *
- *    USE AT YOUR OWN RISK: Google may restrict accounts that use Antigravity
- *    outside its own apps.
- *
- * 2. Fixes false HTTP 429 RESOURCE_EXHAUSTED by omitting `requestType`, matching
- *    the official client (`antigravity/hub`). Prompts are never modified.
+ * USE AT YOUR OWN RISK: Google may restrict accounts that use Antigravity
+ * outside its own apps.
  */
 
 import { Database } from "bun:sqlite";
@@ -124,7 +121,6 @@ interface ExtensionApi {
 		event: "session_start",
 		handler: (event: unknown, ctx: { modelRegistry: { authStorage: { reload(): Promise<void> } } }) => Promise<void>,
 	): void;
-	on(event: "before_provider_request", handler: (event: { payload?: unknown }) => Promise<unknown>): void;
 }
 
 export default function (omp: ExtensionApi) {
@@ -150,14 +146,5 @@ export default function (omp: ExtensionApi) {
 	// Antigravity login is usable without signing in again.
 	omp.on("session_start", async (_event, ctx) => {
 		await ctx.modelRegistry.authStorage.reload();
-	});
-
-	omp.on("before_provider_request", async event => {
-		const payload = event.payload;
-		if (payload && typeof payload === "object" && "userAgent" in payload && payload.userAgent === "antigravity") {
-			// Reflect.deleteProperty avoids asserting a shape just to drop one field.
-			Reflect.deleteProperty(payload, "requestType");
-		}
-		return payload;
 	});
 }

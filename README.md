@@ -8,10 +8,7 @@
 
 ---
 
-A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that:
-
-1. **Re-enables the Google Antigravity provider**, paused by omp in **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
-2. Resolves the false **HTTP 429 `RESOURCE_EXHAUSTED`** error on **Google Antigravity** (Cloud Code Assist) models.
+A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that **re-enables the Google Antigravity provider**, paused by omp in **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
 
 > [!WARNING]
 > **Use at your own risk.** omp paused Antigravity because Google may restrict or ban accounts that use Antigravity outside its own apps; Google's Antigravity terms treat third-party clients using your Antigravity login as a ToS violation. By installing this extension you accept that risk for your Google account. Neither this project nor omp is responsible for account restrictions.
@@ -24,17 +21,16 @@ omp lifts that pause for any provider id an extension registers its own OAuth ha
 
 omp picks the session model (the `default` role, a resumed session's model, subagent roles) before session start, while the stored Antigravity login is still hidden. So that a `google-antigravity/...` default is not replaced by another provider with the warning `Default model ... is unavailable`, the extension also registers a fallback key when a stored Antigravity login exists. omp consults it only after stored OAuth credentials, so requests always use your login.
 
-### Root Cause & How It Works
+### False 429 `RESOURCE_EXHAUSTED`
 
-1. **The Issue**: On Google Cloud Code Assist endpoints (`daily-cloudcode-pa.googleapis.com`), sending `requestType: "agent"` arms Google's internal instruction-hierarchy filter on `systemInstruction`. When the system prompt contains standard conventions with RFC 2119 keywords (`RFC 2119: MUST, REQUIRED, SHOULD...`), Google returns a masked HTTP 429 `RESOURCE_EXHAUSTED` error despite full quota availability.
-2. **Official Client Parity**: The official Google Antigravity client (`antigravity/hub`) **does not send `requestType`**.
-3. **The Solution**: This extension intercepts requests right before delivery (`before_provider_request`) and omits `requestType: "agent"` from the Antigravity payload.
-4. **100% Prompt-Safe**: **No system prompts, conventions, or XML tags are modified, stripped, or obfuscated.** All prompts remain completely untouched.
+Earlier versions of this extension also removed `requestType: "agent"` from Antigravity requests: with it, Cloud Code Assist answers a masked HTTP 429 `RESOURCE_EXHAUSTED` despite free quota. omp itself stopped sending the field in 18.12.4 ([#11849](https://github.com/can1357/oh-my-pi/pull/11849)), so this extension no longer touches requests.
+
+[#18706](https://github.com/can1357/oh-my-pi/issues/18706) reports the 429 coming back from the RFC 2119 line of omp's system prompt. On omp 18.18.6 with this extension, that line returns 200 on its own and inside the full prompt; the 429 only came back with `requestType: "agent"` added again, even with a neutral prompt. Routes that still send the field (third-party Antigravity providers) get the 429; the built-in route does not. No prompt is modified.
 
 ### Comparison with Other Workarounds
 
 - **No Prompt Tampering**: Unlike workarounds that rename `<system-conventions>` or strip text, your prompts remain 100% intact across all providers.
-- **Provider-Scoped**: Only acts on outgoing `google-antigravity` calls (`userAgent === "antigravity"`). Other providers (Anthropic, OpenAI, etc.) are never touched.
+- **Provider-Scoped**: Only registers auth handling for `google-antigravity`. Other providers (Anthropic, OpenAI, etc.) are never touched.
 - **Zero Sidecar / Zero Daemon**: No local proxy servers running in the background, no open ports, no systemd services, and no `.vbs` startup scripts.
 - **Standard Installation**: Installed with the native `omp install`, straight from GitHub or from npm.
 
@@ -70,7 +66,7 @@ omp plugin uninstall omp-antigravity-fix
 
 ### Troubleshooting: Unlocking 30-Minute Local Lock
 
-If you already triggered the false 429 prior to installing this extension, OMP may have written a 30-minute lockout entry into its local SQLite database (`agent.db`).
+If you already triggered a false 429, OMP may have written a 30-minute lockout entry into its local SQLite database (`agent.db`).
 
 Clear the local lockout immediately by running:
 
@@ -98,10 +94,7 @@ You should immediately receive `ok`. Without the extension, omp 18.18.4+ answers
 
 ## Português (PT-BR)
 
-Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) que:
-
-1. **Reativa o provedor Google Antigravity**, pausado pelo omp na **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
-2. Resolve o erro falso de **HTTP 429 `RESOURCE_EXHAUSTED`** nos modelos do **Google Antigravity** (Cloud Code Assist).
+Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) que **reativa o provedor Google Antigravity**, pausado pelo omp na **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
 
 > [!WARNING]
 > **Use por sua conta e risco.** O omp pausou o Antigravity porque a Google pode restringir ou banir contas que usam o Antigravity fora dos apps dela; os termos do Antigravity tratam o uso do seu login em clientes de terceiros como violação. Ao instalar esta extensão você assume esse risco para a sua conta Google. Nem este projeto nem o omp se responsabilizam por restrições na conta.
@@ -114,17 +107,16 @@ O omp libera a pausa para qualquer provedor cujo id uma extensão registre com u
 
 O omp escolhe o modelo da sessão (o papel `default`, o modelo de uma sessão retomada, os papéis de subagentes) antes do início da sessão, quando o login salvo do Antigravity ainda está oculto. Para que um default `google-antigravity/...` não seja trocado por outro provedor com o aviso `Default model ... is unavailable`, a extensão também registra uma chave de fallback quando existe um login do Antigravity salvo. O omp só a consulta depois das credenciais OAuth salvas, então as requisições sempre usam o seu login.
 
-### Causa-Raiz e Como Funciona
+### Falso 429 `RESOURCE_EXHAUSTED`
 
-1. **O Problema**: No gateway da Google (`daily-cloudcode-pa.googleapis.com`), o envio do campo `requestType: "agent"` ativa o filtro de hierarquia de instruções no `systemInstruction`. Quando o prompt contém convenções normais com termos RFC 2119 (`MUST, REQUIRED, SHOULD...`), a Google bloqueia a requisição mascarando-a como HTTP 429 `RESOURCE_EXHAUSTED`, mesmo com a cota 100% livre.
-2. **Paridade com o Cliente Oficial**: O cliente oficial do Google Antigravity (`antigravity/hub`) **não envia `requestType`**.
-3. **A Solução**: Esta extensão intercepta a requisição momentos antes do envio (`before_provider_request`) e omite o campo `requestType: "agent"` no envelope do Antigravity.
-4. **100% Seguro para os Prompts**: **Nenhum prompt, convenção ou tag XML é alterado ou ofuscado.** Todos os prompts permanecem exatamente como foram gerados pelo OMP.
+Versões anteriores desta extensão também removiam `requestType: "agent"` das requisições do Antigravity: com ele, o Cloud Code Assist responde HTTP 429 `RESOURCE_EXHAUSTED` mascarado mesmo com cota livre. O próprio omp deixou de enviar o campo na 18.12.4 ([#11849](https://github.com/can1357/oh-my-pi/pull/11849)), então esta extensão não mexe mais nas requisições.
+
+A [#18706](https://github.com/can1357/oh-my-pi/issues/18706) relata a volta do 429 por causa da linha RFC 2119 do prompt de sistema do omp. No omp 18.18.6 com esta extensão, essa linha retorna 200 sozinha e dentro do prompt completo; o 429 só voltou ao adicionar `requestType: "agent"` de novo, mesmo com um prompt neutro. Rotas que ainda enviam o campo (provedores Antigravity de terceiros) recebem o 429; a rota nativa não. Nenhum prompt é alterado.
 
 ### Comparação com Outras Soluções
 
 - **Sem Adulteração de Prompts**: Ao contrário de extensões que renomeiam `<system-conventions>` ou cortam textos, seus prompts permanecem 100% íntegros.
-- **Escopada por Provedor**: Atua exclusivamente em chamadas para o `google-antigravity`. Não afeta outros modelos (Claude, OpenAI, etc.).
+- **Escopada por Provedor**: Só registra o tratamento de auth do `google-antigravity`. Não afeta outros modelos (Claude, OpenAI, etc.).
 - **Zero Sidecar / Sem Processos em Background**: Não requer proxy HTTP local rodando em segundo plano, nem portas abertas, nem serviços no systemd ou scripts `.vbs`.
 - **Instalação Padrão**: Instalada pelo `omp install` nativo, direto do GitHub ou pelo npm.
 
@@ -160,7 +152,7 @@ omp plugin uninstall omp-antigravity-fix
 
 ### Resolução: Como remover o bloqueio local de 30 minutos
 
-Se você recebeu o erro 429 antes de instalar esta extensão, o OMP pode ter registrado um bloqueio local de 30 minutos no banco SQLite (`agent.db`).
+Se você já recebeu um falso 429, o OMP pode ter registrado um bloqueio local de 30 minutos no banco SQLite (`agent.db`).
 
 Para limpá-lo imediatamente e voltar a usar o Antigravity:
 
