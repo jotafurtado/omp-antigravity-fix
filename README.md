@@ -4,11 +4,9 @@
 [![Platform: Cross-platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)]()
 [![Type: OMP Native Extension](https://img.shields.io/badge/Type-OMP%20Native%20Extension-brightgreen.svg)]()
 
-[English](#english) | [Português (PT-BR)](#português-pt-br)
+[Português (PT-BR)](#português-pt-br)
 
 ---
-
-## English
 
 A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that:
 
@@ -24,6 +22,8 @@ Since omp 18.18.4, the `google-antigravity` auth rule carries a `disabled` reaso
 
 omp lifts that pause for any provider id an extension registers its own OAuth handler under (`providerPauseReason` in `@oh-my-pi/pi-ai`): the explicit opt-in is the user's choice. This extension registers that handler (token refresh and request credentials for `google-antigravity`) and reloads stored credentials at session start, so an existing Antigravity login works again with no new sign-in. `/login google-antigravity` keeps using omp's built-in flow. Requires omp 18.18.4 or newer; on older versions it is harmless.
 
+omp picks the session model (the `default` role, a resumed session's model, subagent roles) before session start, while the stored Antigravity login is still hidden. So that a `google-antigravity/...` default is not replaced by another provider with the warning `Default model ... is unavailable`, the extension also registers a fallback key when a stored Antigravity login exists. omp consults it only after stored OAuth credentials, so requests always use your login.
+
 ### Root Cause & How It Works
 
 1. **The Issue**: On Google Cloud Code Assist endpoints (`daily-cloudcode-pa.googleapis.com`), sending `requestType: "agent"` arms Google's internal instruction-hierarchy filter on `systemInstruction`. When the system prompt contains standard conventions with RFC 2119 keywords (`RFC 2119: MUST, REQUIRED, SHOULD...`), Google returns a masked HTTP 429 `RESOURCE_EXHAUSTED` error despite full quota availability.
@@ -36,16 +36,22 @@ omp lifts that pause for any provider id an extension registers its own OAuth ha
 - **No Prompt Tampering**: Unlike workarounds that rename `<system-conventions>` or strip text, your prompts remain 100% intact across all providers.
 - **Provider-Scoped**: Only acts on outgoing `google-antigravity` calls (`userAgent === "antigravity"`). Other providers (Anthropic, OpenAI, etc.) are never touched.
 - **Zero Sidecar / Zero Daemon**: No local proxy servers running in the background, no open ports, no systemd services, and no `.vbs` startup scripts.
-- **Standard Installation**: Published on npm and installed with the native `omp plugin install`.
+- **Standard Installation**: Installed with the native `omp install`, straight from GitHub or from npm.
 
 ---
 
 ### Installation
 
-Install the npm package with the OMP plugin manager:
+Install from GitHub with the OMP plugin manager:
 
 ```bash
-omp plugin install omp-antigravity-fix
+omp install github:jotafurtado/omp-antigravity-fix
+```
+
+Alternative, from npm:
+
+```bash
+omp install omp-antigravity-fix
 ```
 
 The extension loads in the next `omp` session. Confirm it is installed:
@@ -106,6 +112,8 @@ Desde o omp 18.18.4, a regra de auth `google-antigravity` tem um motivo `disable
 
 O omp libera a pausa para qualquer provedor cujo id uma extensão registre com um handler OAuth próprio (`providerPauseReason` em `@oh-my-pi/pi-ai`): o opt-in explícito é escolha do usuário. Esta extensão registra esse handler (renovação de token e credencial das requisições do `google-antigravity`) e recarrega as credenciais salvas no início da sessão, então um login existente volta a funcionar sem novo login. O `/login google-antigravity` continua usando o fluxo nativo do omp. Requer omp 18.18.4 ou mais novo; em versões antigas não tem efeito colateral.
 
+O omp escolhe o modelo da sessão (o papel `default`, o modelo de uma sessão retomada, os papéis de subagentes) antes do início da sessão, quando o login salvo do Antigravity ainda está oculto. Para que um default `google-antigravity/...` não seja trocado por outro provedor com o aviso `Default model ... is unavailable`, a extensão também registra uma chave de fallback quando existe um login do Antigravity salvo. O omp só a consulta depois das credenciais OAuth salvas, então as requisições sempre usam o seu login.
+
 ### Causa-Raiz e Como Funciona
 
 1. **O Problema**: No gateway da Google (`daily-cloudcode-pa.googleapis.com`), o envio do campo `requestType: "agent"` ativa o filtro de hierarquia de instruções no `systemInstruction`. Quando o prompt contém convenções normais com termos RFC 2119 (`MUST, REQUIRED, SHOULD...`), a Google bloqueia a requisição mascarando-a como HTTP 429 `RESOURCE_EXHAUSTED`, mesmo com a cota 100% livre.
@@ -118,16 +126,22 @@ O omp libera a pausa para qualquer provedor cujo id uma extensão registre com u
 - **Sem Adulteração de Prompts**: Ao contrário de extensões que renomeiam `<system-conventions>` ou cortam textos, seus prompts permanecem 100% íntegros.
 - **Escopada por Provedor**: Atua exclusivamente em chamadas para o `google-antigravity`. Não afeta outros modelos (Claude, OpenAI, etc.).
 - **Zero Sidecar / Sem Processos em Background**: Não requer proxy HTTP local rodando em segundo plano, nem portas abertas, nem serviços no systemd ou scripts `.vbs`.
-- **Instalação Padrão**: Publicada no npm e instalada pelo `omp plugin install` nativo.
+- **Instalação Padrão**: Instalada pelo `omp install` nativo, direto do GitHub ou pelo npm.
 
 ---
 
 ### Instalação
 
-Instale o pacote npm pelo gerenciador de plugins do OMP:
+Instale a partir do GitHub pelo gerenciador de plugins do OMP:
 
 ```bash
-omp plugin install omp-antigravity-fix
+omp install github:jotafurtado/omp-antigravity-fix
+```
+
+Alternativa, pelo npm:
+
+```bash
+omp install omp-antigravity-fix
 ```
 
 A extensão é carregada na próxima sessão do `omp`. Confirme a instalação:
