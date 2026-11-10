@@ -10,7 +10,19 @@
 
 ## English
 
-A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that resolves the false **HTTP 429 `RESOURCE_EXHAUSTED`** error when using **Google Antigravity** (Cloud Code Assist) models.
+A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that:
+
+1. **Re-enables the Google Antigravity provider**, paused by omp in **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
+2. Resolves the false **HTTP 429 `RESOURCE_EXHAUSTED`** error on **Google Antigravity** (Cloud Code Assist) models.
+
+> [!WARNING]
+> **Use at your own risk.** omp paused Antigravity because Google may restrict or ban accounts that use Antigravity outside its own apps; Google's Antigravity terms treat third-party clients using your Antigravity login as a ToS violation. By installing this extension you accept that risk for your Google account. Neither this project nor omp is responsible for account restrictions.
+
+### About the omp 18.18.4 pause
+
+Since omp 18.18.4, the `google-antigravity` auth rule carries a `disabled` reason: omp hides it from `/login`, stops refreshing its tokens, ignores stored credentials, and refuses requests. Your stored login is kept, just not used.
+
+omp lifts that pause for any provider id an extension registers its own OAuth handler under (`providerPauseReason` in `@oh-my-pi/pi-ai`): the explicit opt-in is the user's choice. This extension registers that handler (token refresh and request credentials for `google-antigravity`) and reloads stored credentials at session start, so an existing Antigravity login works again with no new sign-in. `/login google-antigravity` keeps using omp's built-in flow. Requires omp 18.18.4 or newer; on older versions it is harmless.
 
 ### Root Cause & How It Works
 
@@ -74,17 +86,29 @@ Clear the local lockout immediately by running:
 
 ### Verification
 
-Run:
+Run with a model your account's roster serves (Antigravity rosters differ per plan; `omp models google-antigravity` lists them):
 ```bash
-omp -p --model google-antigravity/gemini-3.6-flash "reply with exactly: ok"
+omp -p --model google-antigravity/claude-sonnet-4-6 "reply with exactly: ok"
 ```
-You should immediately receive `ok` with HTTP 200.
+You should immediately receive `ok`. Without the extension, omp 18.18.4+ answers `No API key found for google-antigravity`.
 
 ---
 
 ## Português (PT-BR)
 
-Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) que resolve o erro falso de **HTTP 429 `RESOURCE_EXHAUSTED`** ao utilizar modelos do **Google Antigravity** (Cloud Code Assist).
+Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) que:
+
+1. **Reativa o provedor Google Antigravity**, pausado pelo omp na **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
+2. Resolve o erro falso de **HTTP 429 `RESOURCE_EXHAUSTED`** nos modelos do **Google Antigravity** (Cloud Code Assist).
+
+> [!WARNING]
+> **Use por sua conta e risco.** O omp pausou o Antigravity porque a Google pode restringir ou banir contas que usam o Antigravity fora dos apps dela; os termos do Antigravity tratam o uso do seu login em clientes de terceiros como violação. Ao instalar esta extensão você assume esse risco para a sua conta Google. Nem este projeto nem o omp se responsabilizam por restrições na conta.
+
+### Sobre a pausa do omp 18.18.4
+
+Desde o omp 18.18.4, a regra de auth `google-antigravity` tem um motivo `disabled`: o omp esconde o provedor do `/login`, para de renovar os tokens, ignora as credenciais salvas e recusa as requisições. Seu login salvo continua guardado, só não é usado.
+
+O omp libera a pausa para qualquer provedor cujo id uma extensão registre com um handler OAuth próprio (`providerPauseReason` em `@oh-my-pi/pi-ai`): o opt-in explícito é escolha do usuário. Esta extensão registra esse handler (renovação de token e credencial das requisições do `google-antigravity`) e recarrega as credenciais salvas no início da sessão, então um login existente volta a funcionar sem novo login. O `/login google-antigravity` continua usando o fluxo nativo do omp. Requer omp 18.18.4 ou mais novo; em versões antigas não tem efeito colateral.
 
 ### Causa-Raiz e Como Funciona
 
@@ -148,11 +172,11 @@ Para limpá-lo imediatamente e voltar a usar o Antigravity:
 
 ### Verificação
 
-Execute:
+Use um modelo que o roster da sua conta oferece (varia por plano; `omp models google-antigravity` lista):
 ```bash
-omp -p --model google-antigravity/gemini-3.6-flash "responda com: ok"
+omp -p --model google-antigravity/claude-sonnet-4-6 "responda com: ok"
 ```
-O modelo responderá imediatamente com `ok` (HTTP 200).
+O modelo responderá imediatamente com `ok`. Sem a extensão, o omp 18.18.4+ responde `No API key found for google-antigravity`.
 
 ---
 

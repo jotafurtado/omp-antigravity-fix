@@ -1,7 +1,7 @@
 {
   "name": "omp-antigravity-fix",
-  "version": "1.0.0",
-  "description": "Fixes false 429 RESOURCE_EXHAUSTED on Google Antigravity in Oh My Pi by aligning the request envelope with the official client",
+  "version": "2.0.0",
+  "description": "Re-enables Google Antigravity (paused in omp 18.18.4) and fixes false 429 RESOURCE_EXHAUSTED in Oh My Pi. Use at your own risk.",
   "keywords": [
     "omp",
     "omp-extension",
