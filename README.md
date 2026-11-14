@@ -10,8 +10,16 @@
 
 A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extension that **re-enables the Google Antigravity provider**, paused by omp in **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
 
-> [!WARNING]
-> **Use at your own risk.** omp paused Antigravity because Google may restrict or ban accounts that use Antigravity outside its own apps; Google's Antigravity terms treat third-party clients using your Antigravity login as a ToS violation. By installing this extension you accept that risk for your Google account. Neither this project nor omp is responsible for account restrictions.
+> [!CAUTION]
+> **Real risk of permanent Google account suspension. Read before installing.**
+>
+> - **omp paused Antigravity twice.** First in v18.18.4 ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)); resumed behind a warning on 2026-11-10 (v18.18.7, [#18499](https://github.com/can1357/oh-my-pi/issues/18499)); paused again on 2026-11-14 after a new wave of suspensions ([#19223](https://github.com/can1357/oh-my-pi/pull/19223)). **This extension lifts that pause**, so installing it removes omp's own protection.
+> - **Suspensions are real and ongoing.** Reports of `403 PERMISSION_DENIED` / `TOS_VIOLATION`: [#18341](https://github.com/can1357/oh-my-pi/issues/18341), [#19222](https://github.com/can1357/oh-my-pi/issues/19222), [#19221](https://github.com/can1357/oh-my-pi/issues/19221). an omp contributor reported their own account suspended too (#19223). The author of this extension was suspended too.
+> - **The suspension can hit the whole Google account**, not only omp: per [#19221](https://github.com/can1357/oh-my-pi/issues/19221), the official `agy` CLI returned the same `TOS_VIOLATION` afterwards. You can lose access to Antigravity itself.
+> - **Appeals are limited.** Per Google's [support reply](https://discuss.ai.google.dev/t/account-blocked-from-antigravity-violation-of-terms-of-service-appeal-for-reinstatement/198859): one appeal per account, and repeat violations after a reinstatement are permanent. If you are reinstated, remove third-party OAuth grants before signing in again.
+> - Google's Antigravity terms do not allow signing in from third-party tools like omp. Safer routes: `GEMINI_API_KEY` (AI Studio) or `google-vertex`.
+>
+> **Status: no longer used or tested by the author, kept online for reference only. No support, no further updates planned. Removed from npm; install from GitHub at your own risk.** Neither this project nor omp is responsible for account restrictions.
 
 ### About the omp 18.18.4 pause
 
@@ -32,7 +40,7 @@ Earlier versions of this extension also removed `requestType: "agent"` from Anti
 - **No Prompt Tampering**: Unlike workarounds that rename `<system-conventions>` or strip text, your prompts remain 100% intact across all providers.
 - **Provider-Scoped**: Only registers auth handling for `google-antigravity`. Other providers (Anthropic, OpenAI, etc.) are never touched.
 - **Zero Sidecar / Zero Daemon**: No local proxy servers running in the background, no open ports, no systemd services, and no `.vbs` startup scripts.
-- **Standard Installation**: Installed with the native `omp install`, straight from GitHub or from npm.
+- **Standard Installation**: Installed with the native `omp install`, straight from GitHub.
 
 ---
 
@@ -42,12 +50,6 @@ Install from GitHub with the OMP plugin manager:
 
 ```bash
 omp install github:jotafurtado/omp-antigravity-fix
-```
-
-Alternative, from npm:
-
-```bash
-omp install omp-antigravity-fix
 ```
 
 The extension loads in the next `omp` session. Confirm it is installed:
@@ -96,8 +98,16 @@ You should immediately receive `ok`. Without the extension, omp 18.18.4+ answers
 
 Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) que **reativa o provedor Google Antigravity**, pausado pelo omp na **v18.18.4** ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)).
 
-> [!WARNING]
-> **Use por sua conta e risco.** O omp pausou o Antigravity porque a Google pode restringir ou banir contas que usam o Antigravity fora dos apps dela; os termos do Antigravity tratam o uso do seu login em clientes de terceiros como violação. Ao instalar esta extensão você assume esse risco para a sua conta Google. Nem este projeto nem o omp se responsabilizam por restrições na conta.
+> [!CAUTION]
+> **Risco real de suspensão permanente da conta Google. Leia antes de instalar.**
+>
+> - **O omp pausou o Antigravity duas vezes.** Primeiro na v18.18.4 ([#18622](https://github.com/can1357/oh-my-pi/pull/18622)); retomou com aviso em 10/11/2026 (v18.18.7, [#18499](https://github.com/can1357/oh-my-pi/issues/18499)); pausou de novo em 14/11/2026 após nova onda de suspensões ([#19223](https://github.com/can1357/oh-my-pi/pull/19223)). **Esta extensão derruba essa pausa**, ou seja, instalá-la remove a proteção do próprio omp.
+> - **As suspensões são reais e continuam.** Relatos de `403 PERMISSION_DENIED` / `TOS_VIOLATION`: [#18341](https://github.com/can1357/oh-my-pi/issues/18341), [#19222](https://github.com/can1357/oh-my-pi/issues/19222), [#19221](https://github.com/can1357/oh-my-pi/issues/19221). Um contribuidor do omp relatou a própria conta suspensa também (#19223). O autor desta extensão também foi suspenso.
+> - **A suspensão pode atingir a conta Google inteira**, não só o omp: segundo a [#19221](https://github.com/can1357/oh-my-pi/issues/19221), o `agy` oficial devolveu o mesmo `TOS_VIOLATION` depois. Você pode perder o acesso ao próprio Antigravity.
+> - **Os recursos são limitados.** Segundo a [resposta de suporte do Google](https://discuss.ai.google.dev/t/account-blocked-from-antigravity-violation-of-terms-of-service-appeal-for-reinstatement/198859): um recurso por conta, e reincidência após reintegração é permanente. Se for reintegrado, remova as concessões OAuth de terceiros antes de logar de novo.
+> - Os termos do Antigravity não permitem login em ferramentas de terceiros como o omp. Alternativas mais seguras: `GEMINI_API_KEY` (AI Studio) ou `google-vertex`.
+>
+> **Status: o autor não usa nem testa mais; mantido no ar só como referência. Sem suporte e sem novas atualizações previstas. Removido do npm; instale pelo GitHub por sua conta e risco.** Nem este projeto nem o omp se responsabilizam por restrições na conta.
 
 ### Sobre a pausa do omp 18.18.4
 
@@ -118,7 +128,7 @@ A [#18706](https://github.com/can1357/oh-my-pi/issues/18706) relata a volta do 4
 - **Sem Adulteração de Prompts**: Ao contrário de extensões que renomeiam `<system-conventions>` ou cortam textos, seus prompts permanecem 100% íntegros.
 - **Escopada por Provedor**: Só registra o tratamento de auth do `google-antigravity`. Não afeta outros modelos (Claude, OpenAI, etc.).
 - **Zero Sidecar / Sem Processos em Background**: Não requer proxy HTTP local rodando em segundo plano, nem portas abertas, nem serviços no systemd ou scripts `.vbs`.
-- **Instalação Padrão**: Instalada pelo `omp install` nativo, direto do GitHub ou pelo npm.
+- **Instalação Padrão**: Instalada pelo `omp install` nativo, direto do GitHub.
 
 ---
 
@@ -128,12 +138,6 @@ Instale a partir do GitHub pelo gerenciador de plugins do OMP:
 
 ```bash
 omp install github:jotafurtado/omp-antigravity-fix
-```
-
-Alternativa, pelo npm:
-
-```bash
-omp install omp-antigravity-fix
 ```
 
 A extensão é carregada na próxima sessão do `omp`. Confirme a instalação:

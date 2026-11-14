@@ -1,7 +1,7 @@
 {
   "name": "omp-antigravity-fix",
   "version": "2.0.2",
-  "description": "Re-enables Google Antigravity in Oh My Pi (paused in omp 18.18.4). Use at your own risk.",
+  "description": "DISCONTINUED. Re-enables Google Antigravity in Oh My Pi (paused by omp). Real risk of Google account suspension; use at your own risk.",
   "keywords": [
     "omp",
     "omp-extension",
