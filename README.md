@@ -19,7 +19,7 @@ A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extensio
 > - **Appeals are limited.** Per Google's [support reply](https://discuss.ai.google.dev/t/account-blocked-from-antigravity-violation-of-terms-of-service-appeal-for-reinstatement/198859): one appeal per account, and repeat violations after a reinstatement are permanent. If you are reinstated, remove third-party OAuth grants before signing in again.
 > - Google's Antigravity terms do not allow signing in from third-party tools like omp. Safer routes: `GEMINI_API_KEY` (AI Studio) or `google-vertex`.
 >
-> **Status: no longer used or tested by the author, kept online for reference only. No support, no further updates planned. Removed from npm; install from GitHub at your own risk.** Neither this project nor omp is responsible for account restrictions.
+> **Status: no longer used or tested by the author, kept online for reference only. No support, no further updates planned. Deprecated on npm (it could not be unpublished); install from GitHub at your own risk.** Neither this project nor omp is responsible for account restrictions.
 
 ### About the omp 18.18.4 pause
 
@@ -107,7 +107,7 @@ Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can135
 > - **Os recursos são limitados.** Segundo a [resposta de suporte do Google](https://discuss.ai.google.dev/t/account-blocked-from-antigravity-violation-of-terms-of-service-appeal-for-reinstatement/198859): um recurso por conta, e reincidência após reintegração é permanente. Se for reintegrado, remova as concessões OAuth de terceiros antes de logar de novo.
 > - Os termos do Antigravity não permitem login em ferramentas de terceiros como o omp. Alternativas mais seguras: `GEMINI_API_KEY` (AI Studio) ou `google-vertex`.
 >
-> **Status: o autor não usa nem testa mais; mantido no ar só como referência. Sem suporte e sem novas atualizações previstas. Removido do npm; instale pelo GitHub por sua conta e risco.** Nem este projeto nem o omp se responsabilizam por restrições na conta.
+> **Status: o autor não usa nem testa mais; mantido no ar só como referência. Sem suporte e sem novas atualizações previstas. Marcado como deprecated no npm (não foi possível despublicar); instale pelo GitHub por sua conta e risco.** Nem este projeto nem o omp se responsabilizam por restrições na conta.
 
 ### Sobre a pausa do omp 18.18.4
 
