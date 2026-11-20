@@ -21,6 +21,18 @@ A clean, native [Oh My Pi (`omp`)](https://github.com/can1357/oh-my-pi) extensio
 >
 > **Status: no longer used or tested by the author, kept online for reference only. No support, no further updates planned. Deprecated on npm (it could not be unpublished); install from GitHub at your own risk.** Neither this project nor omp is responsible for account restrictions.
 
+### Recovering a suspended account
+
+If you got `403 PERMISSION_DENIED` / `TOS_VIOLATION` on Antigravity, a community reply on Google's AI forum links an appeal form that covers Antigravity, Gemini CLI and Gemini Code Assist: <https://forms.gle/hGzM9MEUv2azZsrb9> ([source thread](https://discuss.ai.google.dev/t/antigravity-this-service-has-been-disabled-in-this-account-for-violation-of-terms-of-service/198824/2), [omp#19222](https://github.com/can1357/oh-my-pi/issues/19222#issuecomment-6993869974)). The reply comes from a forum member, not Google staff.
+
+**It worked for the author:** the appeal was approved and the account is back.
+
+- Submit it once, signed in to the affected account. Resubmitting does not speed it up.
+- Review takes about 48-72h, with no confirmation email. If approved, access returns on the next sign-in.
+- One appeal per account. Repeat violations after reinstatement are permanent.
+- Before signing in again, remove third-party OAuth grants and stop any wrapper or proxy (omp, CLIProxyAPI, etc.).
+- Workspace / Google Cloud accounts: contact Google Cloud Support instead.
+
 ### About the omp 18.18.4 pause
 
 Since omp 18.18.4, the `google-antigravity` auth rule carries a `disabled` reason: omp hides it from `/login`, stops refreshing its tokens, ignores stored credentials, and refuses requests. Your stored login is kept, just not used.
@@ -108,6 +120,18 @@ Uma extensão nativa e limpa para o [Oh My Pi (`omp`)](https://github.com/can135
 > - Os termos do Antigravity não permitem login em ferramentas de terceiros como o omp. Alternativas mais seguras: `GEMINI_API_KEY` (AI Studio) ou `google-vertex`.
 >
 > **Status: o autor não usa nem testa mais; mantido no ar só como referência. Sem suporte e sem novas atualizações previstas. Marcado como deprecated no npm (não foi possível despublicar); instale pelo GitHub por sua conta e risco.** Nem este projeto nem o omp se responsabilizam por restrições na conta.
+
+### Recuperando uma conta suspensa
+
+Se você recebeu `403 PERMISSION_DENIED` / `TOS_VIOLATION` no Antigravity, uma resposta da comunidade no fórum de IA do Google linka um formulário de apelação que cobre Antigravity, Gemini CLI e Gemini Code Assist: <https://forms.gle/hGzM9MEUv2azZsrb9> ([thread de origem](https://discuss.ai.google.dev/t/antigravity-this-service-has-been-disabled-in-this-account-for-violation-of-terms-of-service/198824/2), [omp#19222](https://github.com/can1357/oh-my-pi/issues/19222#issuecomment-6993869974)). A resposta é de um membro do fórum, não da equipe do Google.
+
+**Funcionou para o autor:** a apelação foi aprovada e a conta voltou.
+
+- Envie uma vez, logado na conta afetada. Reenviar não acelera.
+- A análise leva cerca de 48-72h, sem e-mail de confirmação. Se aprovada, o acesso volta no próximo login.
+- Uma apelação por conta. Reincidência após a reativação é permanente.
+- Antes de logar de novo, remova grants OAuth de terceiros e pare qualquer wrapper ou proxy (omp, CLIProxyAPI etc.).
+- Contas Workspace / Google Cloud: fale com o Google Cloud Support.
 
 ### Sobre a pausa do omp 18.18.4
 
